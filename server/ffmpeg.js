@@ -29,7 +29,7 @@ module.exports = function (req, res, torrent, file) {
     var command = ffmpeg(file.createReadStream())
       .videoCodec('libx264').audioCodec('libvorbis').format('webm')
       .audioBitrate(128)
-      .videoBitrate(2048)
+      .videoBitrate(1024)
       .outputOptions([
         //'-threads 2',
         '-deadline realtime',
