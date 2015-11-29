@@ -33,6 +33,7 @@
     "read-torrent": "^1.3.0",
     "socket.io": "~0.9.17",
     "torrent-stream": "^0.18.1",
+    "grunt": "latest",
     "bower": "latest"
   },
   "optionalDependencies": {
