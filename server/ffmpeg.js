@@ -25,7 +25,7 @@ module.exports = function (req, res, torrent, file) {
   }
 
   function remux(ffmpegOptions) {
-    res.type(ffmpegOptions.resType);
+    res.type(ffmpegOptions.rt);
     var outputOptions = [
       //'-threads 2',
       '-deadline realtime',
@@ -34,9 +34,9 @@ module.exports = function (req, res, torrent, file) {
     ];
 
     var command = ffmpeg(file.createReadStream())
-      .videoCodec(ffmpegOptions.vCodec).audioCodec(ffmpegOptions.aCodec).format(ffmpegOptions.format)
-      .audioBitrate(ffmpegOptions.aBitrate)
-      .videoBitrate(ffmpegOptions.vBitrate)
+      .videoCodec(ffmpegOptions.vc).audioCodec(ffmpegOptions.ac).format(ffmpegOptions.f)
+      .audioBitrate(ffmpegOptions.ab)
+      .videoBitrate(ffmpegOptions.vb)
       .outputOptions(outputOptions)
       .on('start', function (cmd) {
         console.log(cmd);
@@ -52,12 +52,12 @@ module.exports = function (req, res, torrent, file) {
       return probe();
     case 'remux':
       var ffmpegOptions = {
-        resType: req.query.resType || 'video/webm',
-        format: req.query.format || 'webm',
-        vCodec: req.query.vCodec || 'libvpx',
-        aCodec: req.query.aCodec || 'libvorbis',
-        vBitrate: req.query.vBitrate || 2048,
-        aBitrate: req.query.aBitrate || 128
+        rt: req.query.rt || 'video/webm',
+        f: req.query.f || 'webm',
+        vc: req.query.vc || 'libvpx',
+        ac: req.query.ac || 'libvorbis',
+        vb: req.query.vb || 4096,
+        ab: req.query.ab || 256
       };
 
       console.log(ffmpegOptions);
