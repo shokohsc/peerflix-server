@@ -24,17 +24,20 @@ module.exports = function (req, res, torrent, file) {
     });
   }
 
-  function remux() {
-    res.type('video/webm');
+  function remux(ffmpegOptions) {
+    res.type(ffmpegOptions.resType);
+    var outputOptions = [
+      //'-threads 2',
+      '-deadline realtime',
+      '-error-resilient 1'
+      // '-movflags faststart+frag_keyframe+empty_moov'
+    ];
+
     var command = ffmpeg(file.createReadStream())
-      .videoCodec('libvpx').audioCodec('libvorbis').format('webm')
-      .audioBitrate(128)
-      .videoBitrate(4096)
-      .outputOptions([
-        //'-threads 2',
-        '-deadline realtime',
-        '-error-resilient 1'
-      ])
+      .videoCodec(ffmpegOptions.vCodec).audioCodec(ffmpegOptions.aCodec).format(ffmpegOptions.format)
+      .audioBitrate(ffmpegOptions.aBitrate)
+      .videoBitrate(ffmpegOptions.vBitrate)
+      .outputOptions(outputOptions)
       .on('start', function (cmd) {
         console.log(cmd);
       })
@@ -48,7 +51,18 @@ module.exports = function (req, res, torrent, file) {
     case 'probe':
       return probe();
     case 'remux':
-      return remux();
+      var ffmpegOptions = {
+        resType: req.query.resType || 'video/webm',
+        format: req.query.format || 'webm',
+        vCodec: req.query.vCodec || 'libvpx',
+        aCodec: req.query.aCodec || 'libvorbis',
+        vBitrate: req.query.vBitrate || 1024,
+        aBitrate: req.query.aBitrate || 128
+      };
+
+      console.log(ffmpegOptions);
+
+      return remux(ffmpegOptions);
     default:
       res.send(501, 'Not supported.');
   }

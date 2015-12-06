@@ -52,11 +52,9 @@
       </div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="file in torrent.files">
-          <input type="checkbox" ng-model="file.selected" ng-click="select(torrent, file)"/>
-          <a href="{{ file.link }}?ffmpeg=remux" target="_blank">
-            <span class="glyphicon glyphicon-film"></span>
+          <a href="{{ file.link }}?ffmpeg=remux&resType=video%2Fwebm&vCodec=libvpx&vBitrate=1024&aCodec=libvorbis&aBitrate=128&format=webm" target="_blank">
+            <span class="glyphicon glyphicon-play"></span>
           </a>
-          <span class="fa fa-cloud-download"></span>
           <a ng-href="{{ file.link }}" target="_blank">
             {{ file.name }} ({{ file.length / 1024 / 1024 | number:1 }} MB)
           </a>
