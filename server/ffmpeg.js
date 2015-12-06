@@ -56,7 +56,7 @@ module.exports = function (req, res, torrent, file) {
         format: req.query.format || 'webm',
         vCodec: req.query.vCodec || 'libvpx',
         aCodec: req.query.aCodec || 'libvorbis',
-        vBitrate: req.query.vBitrate || 1024,
+        vBitrate: req.query.vBitrate || 2048,
         aBitrate: req.query.aBitrate || 128
       };
 
