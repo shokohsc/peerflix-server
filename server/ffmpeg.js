@@ -29,7 +29,8 @@ module.exports = function (req, res, torrent, file) {
     var outputOptions = [
       //'-threads 2',
       '-deadline realtime',
-      '-error-resilient 1'
+      '-error-resilient 1',
+      '-preset ultrafast'
       // '-movflags faststart+frag_keyframe+empty_moov'
     ];
 
